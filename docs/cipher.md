@@ -67,7 +67,7 @@ stale when florr ships a new build.
 
 Clientbound: I spent less time here, but the per-packet pads show long stretches that are constant
 across packets and connections, which points the same way (deterministic, plus a lot of the cleartext
-is static). Treat "clientbound is deterministic too" as likely-but-unconfirmed.
+is static). I'd bet clientbound is deterministic the same way, but I didn't hammer on it.
 
 ## how to actually read traffic
 

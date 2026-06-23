@@ -1,7 +1,8 @@
 # florr-protocol
 
-florr.io encrypts its websocket traffic. This is a writeup of how that encryption works, plus a few
-scripts to read the traffic yourself.
+florr.io encrypts its websocket traffic. This repo is three things: **the cipher** (so you can read
+that traffic), **the full game data** dumped straight out of the client as clean JSON, and **the
+client-side API** you can build mods on top of.
 
 florr is an M28 game (same author as diep.io and arras.io), so the cipher is the same family as
 diep's. If you've gone through the diep protocol stuff ([ABCxFF/diepindepth](https://github.com/ABCxFF/diepindepth),
@@ -31,6 +32,19 @@ Other things worth knowing:
   there is no per-connection nonce. Reconnect 10 times, you get the same stream. Clientbound looks
   the same but I leaned on it less, see the notes in [docs/cipher.md](docs/cipher.md).
 
+## game data (petals, mobs, talents)
+
+The client carries its entire database and hands it to you through `_Util_*` exports, so it's already
+dumped here as clean JSON. No game needed, just open the files:
+
+- [`data/petals.json`](data/petals.json) — 118 petals, per-rarity stats (health, damage, reload, passive flags, ...)
+- [`data/mobs.json`](data/mobs.json) — 73 mobs, **drop tables** + per-rarity stats + exp
+- [`data/talents.json`](data/talents.json) — 96 talents, costs and the dependency tree
+
+To refresh them for a new build, run `dumpFlorrData()` from `examples/dump-data.user.js`. The rest of
+what the client exposes (icon generators, the drop-chance calc, connection control) is written up in
+[docs/client-api.md](docs/client-api.md).
+
 ## reading packets without reimplementing anything
 
 You don't have to rebuild the cipher to read traffic. The game decrypts inbound packets **in place**
@@ -38,14 +52,33 @@ in its own heap, so the laziest correct approach is to let it do the work and re
 out afterwards. `examples/sniff.user.js` does exactly that. The how/why is in
 [docs/cipher.md](docs/cipher.md).
 
+## once it's decrypted
+
+Decrypting gets you the plaintext bytes, but those are a binary format, not readable text. Turning
+them into labeled fields ("this is the sequence number, this is an X position") is the packet layer,
+and that's a work in progress in [docs/protocol.md](docs/protocol.md). `src/wire.js` reads the
+primitives, `src/packets.js` parses what's mapped so far, and `examples/analyze-packets.js` gives you
+the const / counter / varies byte map that's how you map the rest. Fields I haven't worked out are
+left as raw bytes instead of getting made-up names.
+
 ## layout
 
 ```
-docs/cipher.md            the cipher, in detail, with a worked example
-src/cipher.js             small helper: recover the pad from a known pair, decrypt a body
-examples/recover-pad.js   node. runs the whole thing on the sample pairs, no game needed
-examples/sniff.user.js    tampermonkey. logs decrypted inbound packets live
+data/petals.json            118 petals with per-rarity stats
+data/mobs.json              73 mobs with drop tables + stats
+data/talents.json           96 talents with costs + deps
+docs/cipher.md              the cipher, in detail, with a worked example
+docs/client-api.md          the _Util_* exports, cp6, reading the game's own data
+docs/protocol.md            the packet layer on top of the cipher (work in progress)
+src/cipher.js               recover the pad from a known pair, decrypt a body
+src/wire.js                 little-endian binary reader (u8/u16/u32/f32/varint/...)
+src/packets.js              parse a decrypted packet, labels what's mapped, raw for the rest
+examples/dump-data.user.js  tampermonkey. dumps petals/mobs/talents JSON + grabs icons
+examples/recover-pad.js     node. runs the cipher on the sample pairs, no game needed
+examples/analyze-packets.js node. byte map (const / counter / varies) for a pile of packets
+examples/sniff.user.js      tampermonkey. logs decrypted inbound packets live
 samples/inbound-pairs.json  synthetic (ciphertext, cleartext) pairs shaped like the real thing
+samples/decrypted-sample.json  synthetic decrypted packets for the analyzer
 ```
 
 ## quick start
