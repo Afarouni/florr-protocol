@@ -61,6 +61,22 @@ primitives, `src/packets.js` parses what's mapped so far, and `examples/analyze-
 the const / counter / varies byte map that's how you map the rest. Fields I haven't worked out are
 left as raw bytes instead of getting made-up names.
 
+## mod menu (example)
+
+`mod-menu/` is a little Tampermonkey userscript built on the client data above. It's a florr-styled
+petal and mob database browser: every petal and mob with its real in-game name and description (read
+out of the client's own localization), the generated icons, per-rarity stats, search, sort, and a
+rarity picker. Mob pages show the drop table, petal pages show what drops them.
+
+It's here as an example of what the `_Util_*` data lets you build, not the point of the repo. It's
+bare for now (just the browser), I might add more to it later.
+
+Install it with [Tampermonkey](https://www.tampermonkey.net/): open
+[mod-menu/florr-menu.user.js](https://raw.githubusercontent.com/Afarouni/florr-protocol/main/mod-menu/florr-menu.user.js)
+and it'll offer to add it. Then open florr and click the logo button in the bottom-right, or press the
+`` ` `` key. It checks florr's build hash on startup and warns you if the game updated past the build it
+was last checked on, since heap offsets move between builds. More in [mod-menu/README.md](mod-menu/README.md).
+
 ## layout
 
 ```
@@ -79,6 +95,7 @@ examples/analyze-packets.js node. byte map (const / counter / varies) for a pile
 examples/sniff.user.js      tampermonkey. logs decrypted inbound packets live
 samples/inbound-pairs.json  synthetic (ciphertext, cleartext) pairs shaped like the real thing
 samples/decrypted-sample.json  synthetic decrypted packets for the analyzer
+mod-menu/florr-menu.user.js    tampermonkey. florr-styled petal/mob database browser (example)
 ```
 
 ## quick start
