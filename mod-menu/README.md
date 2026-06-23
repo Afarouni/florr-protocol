@@ -8,6 +8,20 @@ Everything it shows comes from the client that's already running on your machine
 exports for the petal/mob data and icons, and the bundled localization for the real names and
 descriptions. It only reads. Nothing gets sent anywhere, no packets, no network.
 
+## screenshots
+
+the menu. the `?` tabs are placeholders for now:
+
+![the florr menu](screenshots/main-menu.png)
+
+browsing petals: search, sort, a rarity picker, and per-rarity stats on every card:
+
+![browsing petals](screenshots/browser-overview.png)
+
+an item page (Rock here), with its description, every rarity, the stats, and its drop table:
+
+![an item page](screenshots/browser-individual-item.png)
+
 ## what it does
 
 - browse every petal (118) and mob (73) with the real in-game name, description, and icon
