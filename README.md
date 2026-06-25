@@ -102,5 +102,3 @@ Builds change. Function indices and heap addresses rotate basically every update
 runtime, so they don't care what build you're on.
 
 MIT, do what you want.
-
-## Contact (Discord): @kw0d932
