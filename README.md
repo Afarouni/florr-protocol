@@ -103,4 +103,8 @@ runtime, so they don't care what build you're on.
 
 MIT, do what you want.
 
+<<<<<<< HEAD
 ## Contact (Discord): @kw0d932
+=======
+## Contact (Discord): @kw0d932
+>>>>>>> 5bd06dbae0d267822c732c6b50e769cbeadf90f1
