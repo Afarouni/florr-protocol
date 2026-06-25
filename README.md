@@ -122,4 +122,4 @@ runtime, so they don't care what build you're on.
 
 MIT, do what you want.
 
-Contact (Discord): @kw0d932
+## Contact (Discord): @kw0d932
