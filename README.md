@@ -96,6 +96,8 @@ examples/sniff.user.js      tampermonkey. logs decrypted inbound packets live
 samples/inbound-pairs.json  synthetic (ciphertext, cleartext) pairs shaped like the real thing
 samples/decrypted-sample.json  synthetic decrypted packets for the analyzer
 mod-menu/florr-menu.user.js    tampermonkey. florr-styled petal/mob database browser (example)
+mod-menu/README.md             how to install the menu + what it does
+mod-menu/screenshots/          the images used in that readme
 ```
 
 ## quick start
@@ -119,3 +121,5 @@ Builds change. Function indices and heap addresses rotate basically every update
 runtime, so they don't care what build you're on.
 
 MIT, do what you want.
+
+Contact (Discord): @kw0d932
